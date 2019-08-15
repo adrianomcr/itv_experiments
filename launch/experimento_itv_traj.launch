@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+
+
+<!--Run the node that will read a trajectory from the file and publish to the controller-->
+<node pkg = "itv_experiments" name = "trajectory_planner" type = "dijkstra_trajectories_itv.py" args="1 1" output="screen">
+</node>
+
+<!--arg=1 vr  ::  Dijkstra Points Combined-->
+<!--arg=2 vr  ::  Dijkstra Points Energy-->
+<!--arg=3 vr  ::  Dijkstra Points Shortest-->
+<!--arg=4 vr  ::  Dijkstra Points Transversal-->
+<!-- vr = desired velocity-->
+
+
+</launch>
