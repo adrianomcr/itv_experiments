@@ -39,22 +39,23 @@ void gps_callback(const sensor_msgs::NavSatFixConstPtr& gps)
 
 
 
-     if (count_gps < 40){
+     if (count_gps < 120){
        count_gps++;
-       cx_gps += easting/40.0;
-       cy_gps += northing/40.0;
+       cx_gps += easting/120.0;
+       cy_gps += northing/120.0;
+       printf("count:%d\n", count_gps);
      }
      else{
        double alpha = 0.08;                                   //Beguinning of the trajectory (Dijkstra)
-       pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps      -8.9399);
-       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps     +3.0343);
+       pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps       -7.823163); //(-8.9399 * 0)
+       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps      +2.010794); //(+3.0343 * 0)
        pos[2] = 0.0;
      }
 
 
 
      //cout << easting-cx_gps << "\t\t"<< northing-cy_gps << endl;
-
+//-7.823163	2.010794
 }
 
 
@@ -75,9 +76,9 @@ void imu_callback(const sensor_msgs::ImuConstPtr& imu)
 
 
     //I think that it is not necessary. But it can be done to ensure that yaw=0 means robot pointing East
-    if (count_imu < 40){
+    if (count_imu < 120){
       count_imu++;
-      center_yaw += yaw/40.0;
+      center_yaw += yaw/120.0;
     }
     else{
       yaw = y - center_yaw;

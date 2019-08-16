@@ -9,12 +9,18 @@
 
 
 <!--Run the node that will read a trajectory from the file and publish to the controller-->
-<node pkg = "itv_experiments" name = "trajectory_planner" type = "dijkstra_trajectories_itv.py" args="1" output="screen">
+<node pkg = "itv_experiments" name = "trajectory_planner" type = "dijkstra_trajectories_itv.py" args="4" output="screen">
 </node>
 <!-- arg=1  ::  Dijkstra Points Combined    -->
 <!-- arg=2  ::  Dijkstra Points Energy      -->
 <!-- arg=3  ::  Dijkstra Points Shortest    -->
 <!-- arg=4  ::  Dijkstra Points Transversal -->
+
+
+
+
+
+<!--<node name="record" pkg="rosbag" type="record" args="-a $(find itv_experiments)/bags"/>-->
 
 
 </launch>

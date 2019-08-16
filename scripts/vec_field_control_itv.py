@@ -324,6 +324,11 @@ def vector_field():
             vel.linear.x = V_forward
             vel.angular.z = w_z
 
+            if(vel.angular.z > 2.5):
+                vel.angular.z = 2.5
+            elif(vel.angular.z < -2.5):
+                vel.angular.z = -2.5
+
             # Publish velocity
             pub_cmd_vel.publish(vel)
 
