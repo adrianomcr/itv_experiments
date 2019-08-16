@@ -39,15 +39,15 @@ void gps_callback(const sensor_msgs::NavSatFixConstPtr& gps)
 
 
 
-     if (count_gps < 20){
+     if (count_gps < 40){
        count_gps++;
-       cx_gps += easting/20.0;
-       cy_gps += northing/20.0;
+       cx_gps += easting/40.0;
+       cy_gps += northing/40.0;
      }
      else{
-       double alpha = 0.08;
-       pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps);
-       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps);
+       double alpha = 0.08;                                   //Beguinning of the trajectory (Dijkstra)
+       pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps      -8.9399);
+       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps      3.0343);
        pos[2] = 0.0;
      }
 
@@ -61,26 +61,28 @@ void gps_callback(const sensor_msgs::NavSatFixConstPtr& gps)
 void imu_callback(const sensor_msgs::ImuConstPtr& imu)
 {
 
-     quat[0] = imu->orientation.x;
-     quat[1] = imu->orientation.y;
-     quat[2] = imu->orientation.z;
-     quat[3] = imu->orientation.w;
+    quat[0] = imu->orientation.x;
+    quat[1] = imu->orientation.y;
+    quat[2] = imu->orientation.z;
+    quat[3] = imu->orientation.w;
 
-     double r, p, y;
-     tf::Matrix3x3 rotMatrix(tf::Quaternion(quat[0],quat[1],quat[2],quat[3]));
+    double r, p, y;
+    tf::Matrix3x3 rotMatrix(tf::Quaternion(quat[0],quat[1],quat[2],quat[3]));
 
-     // Get roll, pitch and yaw
-     rotMatrix.getRPY(r, p, y);
-     yaw = y;
+    // Get roll, pitch and yaw
+    rotMatrix.getRPY(r, p, y);
+    yaw = y;
 
-	
-     if (count_imu < 20){
-       count_imu++;
-       center_yaw += yaw/20.0;
-     }
-     else{
-       yaw = y - center_yaw;
-     }
+
+    //I think that it is not necessary. But it can be done to ensure that yaw=0 means robot pointing East
+    if (count_imu < 40){
+      count_imu++;
+      center_yaw += yaw/40.0;
+    }
+    else{
+      yaw = y - center_yaw;
+    }
+
 
 }
 
@@ -98,7 +100,7 @@ int main(int argc, char **argv) {
   ros::Subscriber gps_sub = nh.subscribe<sensor_msgs::NavSatFix>("/fix", 1, gps_callback);
   ros::Subscriber imu_sub = nh.subscribe<sensor_msgs::Imu>("/imu/data", 1, imu_callback);
   ros::Publisher pose_pub = nh.advertise<geometry_msgs::Pose>("/espeleo/pose_gps_imu", 1);
-  ros::Publisher rviz_pose_pub = nh.advertise<visualization_msgs::Marker>("/visualization_marker_espeleo_ufmg", 1);
+  ros::Publisher rviz_pose_pub = nh.advertise<visualization_msgs::Marker>("/visualization_marker_espeleo_itv", 1);
   ros::Rate loop_rate(freq);
 
 
