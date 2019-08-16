@@ -47,7 +47,7 @@ void gps_callback(const sensor_msgs::NavSatFixConstPtr& gps)
      else{
        double alpha = 0.08;                                   //Beguinning of the trajectory (Dijkstra)
        pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps      -8.9399);
-       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps      3.0343);
+       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps     +3.0343);
        pos[2] = 0.0;
      }
 
