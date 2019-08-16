@@ -54,3 +54,16 @@ Alternativamente ao último comando, pode-se utilizar:
 - `TRAJ_TYPE = 3`  =>  Dijkstra Points Shortest
 - `TRAJ_TYPE = 4`  =>  Dijkstra Points Transversal
 
+
+
+## Rosbag
+
+
+Para salvar todos os tópicos em bags de 30 segundos:
+
+`rosbag record -a --split --duration=30`
+
+
+Para salvar todos os tópicos em bags de 1 minuto:
+
+`rosbag record -a --split --duration=1m`

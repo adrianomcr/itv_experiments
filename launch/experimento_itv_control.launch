@@ -3,6 +3,13 @@
 <launch>
 
 
+
+ <!--This do not work-->
+ <!--node pkg="rosbag" type="record" name="rosbag_record_tarj_x"
+       args="- -split - -duration=1m" /-->
+
+
+
 <!--Run the node that plots stuff on rviz-->
 <node pkg = "itv_experiments" name = "pose_constructor" type = "pose_constructor" args="" output="screen">
 </node>
