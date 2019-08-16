@@ -67,3 +67,13 @@ Para salvar todos os tópicos em bags de 30 segundos:
 Para salvar todos os tópicos em bags de 1 minuto:
 
 `rosbag record -a --split --duration=1m`
+
+
+
+
+
+## Restart ROS
+
+Para reiniciar o ros no espeleo rode o seguinte comando:
+
+`sudo systemctl restart espeleo_ros.service`

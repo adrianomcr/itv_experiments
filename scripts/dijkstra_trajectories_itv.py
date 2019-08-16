@@ -28,7 +28,7 @@ Adriano M. C. Rezende, <adrianomcr18@gmail.com>
 # Function to read a reference curve from a txt file
 def read_txt_trajectory(id):
 
-    path = './src/itv_experiments/txt_trajectories/traj_'+str(id)+'.txt'
+    path = '/home/espeleo/catkin_ws/src/itv_experiments/txt_trajectories/traj_'+str(id)+'.txt'
 
     traj = [[],[],[]]
 
