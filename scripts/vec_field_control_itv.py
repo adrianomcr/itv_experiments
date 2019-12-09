@@ -145,12 +145,12 @@ def vec_field(pos):
     # Compute the tangent vector of the curve at k_min
     k1 = k_min - 1 # previous index
     if k1 == -1:
-        #k1 = N-1
-        k1 = 0
+        #k1 = N-1 #closed curves
+        k1 = 0  #open curves
     k2 = k_min + 1 # next index
     if k2 == N:
-        #k2 = 0
-        k2 = N-1
+        #k2 = 0 #closed curves
+        k2 = N-1 #open curves
     # Numerically compute the tangent vector and normalize it
     T = [traj[0][k2]-traj[0][k1], traj[1][k2]-traj[1][k1]]
     norm_T = sqrt(T[0]**2 + T[1]**2)

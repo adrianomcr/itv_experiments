@@ -16,8 +16,8 @@
 <!--param name="/espeleo/experimentResultsFile" type="string" value="$(find ufmg_experiments)/text/results.txt" /-->
 
 
-<!--Run the node that controls the robot with vector fields -->
-<node pkg = "itv_experiments" name = "vector_field" type = "vec_field_control_itv.py" args="0.75" output="screen">
+<!--Run the node that controls the robot with vector fields -->			      <!-- v_d -->
+<node pkg = "itv_experiments" name = "vector_field" type = "vec_field_control_itv.py" args="1.5" output="screen">
 </node>
 
 

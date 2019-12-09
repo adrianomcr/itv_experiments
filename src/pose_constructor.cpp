@@ -21,11 +21,13 @@
 #include <ros/package.h>
 
 
-
+#define AVERAGE_GPS 100
+#define AVERAGE_IMU 100
+#define WAIT_TIME 30 //Wait time for gps, in seconds
 
 double pos[3], quat[4], yaw;
 
-int count_gps, count_imu;
+//int count_gps, count_imu;
 double cx_gps, cy_gps, center_yaw;
 
 
@@ -38,18 +40,22 @@ void gps_callback(const sensor_msgs::NavSatFixConstPtr& gps)
      LLtoUTM(gps->latitude, gps->longitude,  northing, easting , &zone);
 
 
-
-     if (count_gps < 120){
+     static int count_gps = 0;
+     if (count_gps < AVERAGE_GPS){
        count_gps++;
-       cx_gps += easting/120.0;
-       cy_gps += northing/120.0;
+       cx_gps += (float) easting/AVERAGE_GPS;
+       cy_gps += (float) northing/AVERAGE_GPS;
        printf("count:%d\n", count_gps);
      }
      else{
-       double alpha = 0.08;                                   //Beguinning of the trajectory (Dijkstra)
-       pos[0] = (1-alpha)*pos[0] + alpha*(easting-cx_gps       -7.823163); //(-8.9399 * 0)
-       pos[1] = (1-alpha)*pos[1] + alpha*(northing-cy_gps      +2.010794); //(+3.0343 * 0)
+       double alpha = 0.08;
+       pos[0] = (1-alpha)*pos[0] + alpha*(easting - cx_gps ); //(-8.9399 * 0)
+       pos[1] = (1-alpha)*pos[1] + alpha*(northing - cy_gps ); //(+3.0343 * 0)
        pos[2] = 0.0;
+
+
+       cout << "easting: " << easting - cx_gps << endl;
+       cout << "northing: " << northing - cy_gps << endl << endl;
      }
 
 
@@ -74,11 +80,11 @@ void imu_callback(const sensor_msgs::ImuConstPtr& imu)
     rotMatrix.getRPY(r, p, y);
     yaw = y;
 
-
+    static int count_imu = 0;
     //I think that it is not necessary. But it can be done to ensure that yaw=0 means robot pointing East
-    if (count_imu < 120){
+    if (count_imu < AVERAGE_IMU){
       count_imu++;
-      center_yaw += yaw/120.0;
+      center_yaw += (float) yaw/AVERAGE_IMU;
     }
     else{
       yaw = y - center_yaw;
@@ -98,6 +104,33 @@ int main(int argc, char **argv) {
   double freq = 20.0;
 
 
+  cout << "\33[93mWaitting before reading gps data ...\33[0m" << endl;
+for (int k=0; k<WAIT_TIME; k++){
+  cout << "Count_down: " << WAIT_TIME-k << endl;
+  ros::Duration(1.0).sleep();
+}
+/*
+  cout << "10 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "9 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "8 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "7 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "6 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "5 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "4 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "3 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "2 ..." << endl;
+  ros::Duration(1.0).sleep();
+  cout << "1 ..." << endl;
+  ros::Duration(1.0).sleep();*/
+
   ros::Subscriber gps_sub = nh.subscribe<sensor_msgs::NavSatFix>("/fix", 1, gps_callback);
   ros::Subscriber imu_sub = nh.subscribe<sensor_msgs::Imu>("/imu/data", 1, imu_callback);
   ros::Publisher pose_pub = nh.advertise<geometry_msgs::Pose>("/espeleo/pose_gps_imu", 1);
@@ -106,9 +139,14 @@ int main(int argc, char **argv) {
 
 
   int i = 0;
-  count_gps = 0;
-  count_imu = 0;
-  cx_gps = 0; cy_gps = 0; center_yaw = 0;
+  //count_gps = 0;
+  //count_imu = 0;
+  pos[0] = 0.0;
+  pos[1] = 0.0;
+  pos[2] = 0.0;
+  cx_gps = 0.0;
+  cy_gps = 0.0;
+  center_yaw = 0.0;
 
   geometry_msgs::Pose espeleo_pose;
 
