@@ -302,6 +302,8 @@ def vector_field():
         #print "Waitting for trajectory ..."
         rate.sleep()
 
+    Vx_ref = 0.0
+    Vy_ref = 0.0
 
     #Loop
     while not rospy.is_shutdown():
@@ -318,7 +320,15 @@ def vector_field():
             [Vx_ref, Vy_ref] = vec_field(pos)
 
             # Compute a command of velocity
+	    Vx_ref_ant = Vx_ref
+	    Vy_ref_ant = Vy_ref
             [V_forward, w_z] = feedback_linearization(Vx_ref, Vy_ref)
+
+	    """
+	    if(abs(Vx_ref - Vx_ref_ant) < 0.001 and abs(Vy_ref - Vy_ref_ant) < 0.001):
+		V_forward = 0.0
+		w_z = 0.0
+	    """
 
             # Atribute values to the Twist message
             vel.linear.x = V_forward

@@ -72,11 +72,11 @@ def refference_trajectory_2(N):
 
 
     # Geometric parameters
-    a = 14 # semiaxis x
-    b = 10 # semiaxis y
-    cx = 0 # center x
-    cy = -1.0 # center y
-    phi = -52*pi/180.0 # rotation angle of the curve
+    a = 7 # semiaxis x
+    b = 5 # semiaxis y
+    cx = 0.1 # center x
+    cy = 0.1 # center y
+    phi = -52*pi/180.0*0 # rotation angle of the curve
 
     # Parameter
     dp = 2*pi/N
@@ -114,9 +114,9 @@ def refference_trajectory_3(N):
     a = 16.0 #
     b = 0 #
     c = 12.0 #
-    cx = 0 # center x
-    cy = -1.0 # cewnter y
-    phi = -52*pi/180.0 # rotation angle of the curve
+    cx = 0.1 # center x
+    cy = -0.1 # cewnter y
+    phi = -52*pi/180.0*0 # rotation angle of the curve
 
     # Parameter
     dp = 2*pi/N
