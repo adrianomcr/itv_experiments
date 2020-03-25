@@ -2,13 +2,9 @@
 
 <launch>
 
-
-
- <!--This do not work-->
- <!--node pkg="rosbag" type="record" name="rosbag_record_tarj_x"
-       args="- -split - -duration=1m" /-->
-
-
+<!--group ns="xsens"-->
+<include file="$(find xsens_driver)/launch/xsens_driver.launch" />
+<!--/grou-->
 
 <!--Run the node that plots stuff on rviz-->
 <node pkg = "itv_experiments" name = "pose_constructor" type = "pose_constructor" args="" output="screen">
@@ -17,7 +13,7 @@
 
 
 <!--Run the node that controls the robot with vector fields -->			      <!-- v_d -->
-<node pkg = "itv_experiments" name = "vector_field" type = "vec_field_control_itv.py" args="1.5" output="screen">
+<node pkg = "itv_experiments" name = "vector_field" type = "vec_field_control_itv.py" args="1.0" output="screen">
 </node>
 
 

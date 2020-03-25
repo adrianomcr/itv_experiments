@@ -30,11 +30,12 @@ Adriano M. C. Rezende, <adrianomcr18@gmail.com>
 def refference_trajectory_1(N):
 
     # Geometric parameters
-    a = 15.0 # height of the "8"
-    b = 7.0 # width of the "8"
+    a = 15.0/2.0 # height of the "8"
+    b = 7.0/2.0 # width of the "8"
     cx = 0 # center x
     cy = -1.0 # center y
     phi = -52*pi/180.0 # rotation angle of the curve
+    phi = -0.0*pi/180.0 # rotation angle of the curve
 
     # Parameter
     dp = 2*pi/N
@@ -71,11 +72,11 @@ def refference_trajectory_2(N):
 
 
     # Geometric parameters
-    a = 14 # semiaxis x
-    b = 10 # semiaxis y
-    cx = 0 # center x
-    cy = -1.0 # center y
-    phi = -52*pi/180.0 # rotation angle of the curve
+    a = 7 # semiaxis x
+    b = 5 # semiaxis y
+    cx = 0.1 # center x
+    cy = 0.1 # center y
+    phi = -52*pi/180.0*0 # rotation angle of the curve
 
     # Parameter
     dp = 2*pi/N
@@ -113,9 +114,9 @@ def refference_trajectory_3(N):
     a = 16.0 #
     b = 0 #
     c = 12.0 #
-    cx = 0 # center x
-    cy = -1.0 # cewnter y
-    phi = -52*pi/180.0 # rotation angle of the curve
+    cx = 0.1 # center x
+    cy = -0.1 # cewnter y
+    phi = -52*pi/180.0*0 # rotation angle of the curve
 
     # Parameter
     dp = 2*pi/N
@@ -144,9 +145,49 @@ def refference_trajectory_3(N):
 # ----------  ----------  ----------  ----------  ----------
 
 
+
+# Rotina para a geracao da trajetoria de linha reta
+def refference_trajectory_4(N):
+
+    # Geometric parameters
+    # a = ... # PLACE HERE YOUR PARAMETER
+    # b = ... # PLACE HERE YOUR PARAMETER
+    # c = ... # PLACE HERE YOUR PARAMETER
+    cx = 0 # center x
+    cy = 0 # cewnter y
+    phi = pi/4.0 # rotation angle of the curve
+
+    # Parameter
+    dp = 2*pi/N
+    p = -dp
+
+    traj = [[],[]]
+    for k in range(N):
+
+        # Increment parameter
+        p = p + dp
+
+        # Compute a point of the "rectangular" in a local frame
+        x_ref0 = p # PLACE HERE YOUR CURVE EQUATION
+        y_ref0 = 0.0 # PLACE HERE YOUR CURVE EQUATION
+
+        # Rotate and displace the point
+        x_ref = cos(phi) * x_ref0 - sin(phi) * y_ref0 + cx * 1
+        y_ref = sin(phi) * x_ref0 + cos(phi) * y_ref0 + cy * 1
+
+        # Save the computed point
+        traj[0].append(x_ref)
+        traj[1].append(y_ref)
+
+    return (traj)
+# ----------  ----------  ----------  ----------  ----------
+
+
+
+
 """ # CREATE HERE A NEW CURVE
 # Rotina para a geracao da trajetoria de "??"
-def refference_trajectory_4(N):
+def refference_trajectory_5(N):
 
     # Geometric parameters
     # a = ... # PLACE HERE YOUR PARAMETER
@@ -181,6 +222,7 @@ def refference_trajectory_4(N):
     return (traj)
 # ----------  ----------  ----------  ----------  ----------
 """
+
 
 
 # Function to create a message of the type polygon, which will carry the points of the curve
@@ -266,8 +308,10 @@ def trajectory():
         traj = refference_trajectory_2(number_of_samples)
     elif curve_number == 3:
         traj = refference_trajectory_3(number_of_samples)
+    elif curve_number == 4:
+        traj = refference_trajectory_4(number_of_samples)
     # PLACE HERE A NEW FUNCTION
-    # elif curve_number == 4:
+    # elif curve_number == 5:
     #     traj = refference_trajectory_4(number_of_samples)
     else:
         print "Invalid curve_number !"
